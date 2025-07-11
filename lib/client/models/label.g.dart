@@ -15,7 +15,7 @@ extension GetLabelCollection on Isar {
 
 const LabelSchema = CollectionSchema(
   name: r'Label',
-  id: -2529348934070891046,
+  id: -2529348936,
   properties: {
     r'details': PropertySchema(
       id: 0,
