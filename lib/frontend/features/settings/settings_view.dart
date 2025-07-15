@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SettingsView extends StatefulWidget {
   final String initialLanguage;
@@ -49,10 +50,18 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Settings'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          SizedBox(
+            height: 16,
+          ),
+          SvgPicture.asset('/images/settings.svg', width: 64, height: 64),
+          Text('Arfoon Note Settigs',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          SizedBox(
+            height: 16,
+          ),
           _buildDropdown('Language', languages, selectedLanguage, (val) {
             if (val != null) setState(() => selectedLanguage = val);
           }),
@@ -85,18 +94,36 @@ class _SettingsViewState extends State<SettingsView> {
     ValueChanged<String?> onChanged,
   ) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label),
-        DropdownButton<String>(
-          value: currentValue,
-          isExpanded: true,
-          onChanged: onChanged,
-          items: items
-              .map((item) => DropdownMenuItem(
-                    value: item,
-                    child: Text(item),
-                  ))
-              .toList(),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.grey,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade400),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: currentValue,
+              isExpanded: true,
+              onChanged: onChanged,
+              items: items
+                  .map((item) => DropdownMenuItem(
+                        value: item,
+                        child: Text(item),
+                      ))
+                  .toList(),
+            ),
+          ),
         ),
       ],
     );

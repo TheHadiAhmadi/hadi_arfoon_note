@@ -65,14 +65,15 @@ class _LabelEditViewState extends State<LabelEditView> {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            widget.onDelete();
-          },
-          child:
-              const Text('Delete', style: TextStyle(color: Colors.redAccent)),
-        ),
+        if (widget.initialValue != '')
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              widget.onDelete();
+            },
+            child:
+                const Text('Delete', style: TextStyle(color: Colors.redAccent)),
+          ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
