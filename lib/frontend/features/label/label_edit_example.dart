@@ -34,7 +34,7 @@ class _LabelEditExampleState extends State<LabelEditExample> {
           setState(() => labels.add(value));
         }
       },
-      onDelete: () {}, // no-op for add
+      onDelete: () {},
     );
   }
 

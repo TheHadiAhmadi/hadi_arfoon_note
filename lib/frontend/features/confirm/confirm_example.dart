@@ -8,12 +8,12 @@ class ConfirmExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: TextButton(
-      onPressed: () => ConfirmView.show(
-        context,
-        onConfirm: () {
+      onPressed: () async {
+        bool? result = await ConfirmView.show(context);
+        if (result!) {
           print("Confirm");
-        },
-      ),
+        }
+      },
       child: const Text('Open'),
     ));
   }

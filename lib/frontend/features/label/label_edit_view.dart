@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LabelEditView extends StatefulWidget {
   final String initialValue;
@@ -50,25 +51,36 @@ class _LabelEditViewState extends State<LabelEditView> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.grey[900],
-      title: const Text('Edit Label', style: TextStyle(color: Colors.white)),
-      content: TextField(
-        controller: controller,
-        style: const TextStyle(color: Colors.white),
-        decoration: const InputDecoration(
-          hintText: 'Enter label name',
-          hintStyle: TextStyle(color: Colors.white54),
-          enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white24)),
-          focusedBorder:
-              UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-        ),
+      contentPadding: const EdgeInsets.all(16),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 16),
+          const Text(
+            'Edit Label',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            controller: controller,
+            autofocus: true,
+            decoration: InputDecoration(
+              hintText: 'Enter label name',
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
       ),
       actions: [
-        if (widget.initialValue != '')
+        if (widget.initialValue.isNotEmpty)
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
               widget.onDelete();
             },
             child:
@@ -78,13 +90,12 @@ class _LabelEditViewState extends State<LabelEditView> {
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
         ),
-        TextButton(
+        ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
             widget.onSave(controller.text.trim());
           },
-          child:
-              const Text('Save', style: TextStyle(color: Colors.greenAccent)),
+          child: const Text('Save'),
         ),
       ],
     );

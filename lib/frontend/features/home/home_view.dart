@@ -1,7 +1,13 @@
+import 'package:arfoon_note/client/client.dart';
+import 'package:arfoon_note/frontend/data/data.dart';
 import 'package:arfoon_note/client/models/models.dart';
+import 'package:arfoon_note/frontend/features/features.dart';
 import 'package:arfoon_note/frontend/features/label/label_edit_view.dart';
 import 'package:arfoon_note/frontend/features/sidebar/sidebar_view.dart';
+import 'package:arfoon_note/integration/integration.dart';
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
+import 'package:arfoon_note/client/client.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -12,46 +18,54 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final TextEditingController _searchController = TextEditingController();
-  int id = 5;
 
-  final List<Label> labels = [
-    Label(name: 'Work', id: 1),
-    Label(name: 'Personal', id: 2),
-    Label(name: 'Urgent', id: 3),
-    Label(name: 'Ideas', id: 4)
-  ];
+List<Label> labels = [];
+List<Note> notes = [];
 
-  final List<String> notes = [
-    'Note 1: Buy groceries',
-    'Note 2: Meeting at 10 AM',
-    'Note 3: Flutter task',
-    'Note 4: Call mom',
-  ];
+@override
+void initState() {
+  super.initState();
+  loadLabels();
+  loadNotes();
+}
 
-  String searchQuery = '';
+String userName = 'Hadi Ahmadi';
+String searchQuery = '';
 
-  addLabel(label) {
-    setState(() {
-      labels.add(Label(name: label, id: id++));
-    });
-  }
+void loadLabels() async {
+  setState(() {
+    labels = List.from(FakeData.labels);
+  });
+}
 
-  deleteLabel(id) {
-    setState(() {
-      final index = labels.indexWhere((l) => l.id == id);
+void loadNotes() async {
+  setState(() {
+    notes = List.from(FakeData.notes);
+  });
+}
 
-      labels.removeAt(index);
-    });
-  }
+void addLabel(String label) {
+  setState(() {
+    labels.add(Label(id: labels.length + 1, name: label));
+  });
+}
 
-  updateLabel(dynamic id, String label) {
-    setState(() {
-      final index = labels.indexWhere((l) => l.id == id);
-      if (index != -1) {
-        labels[index] = Label(name: label, id: id);
-      }
-    });
-  }
+void deleteLabel(Id id) {
+  setState(() {
+    print("delete id=$id");
+    labels.removeWhere((l) => l.id == id);
+  });
+}
+
+void updateLabel(Id id, String name) {
+  setState(() {
+    print("update id=$id name=$name");
+    final index = labels.indexWhere((l) => l.id == id);
+    if (index != -1) {
+      labels[index] = labels[index].copyWith(name: name);
+    }
+  });
+}
 
   @override
   void dispose() {
@@ -59,18 +73,18 @@ class _HomeViewState extends State<HomeView> {
     super.dispose();
   }
 
-  List<String> get filteredNotes {
-    return notes.where((note) {
-      final matchesSearch =
-          note.toLowerCase().contains(searchQuery.toLowerCase());
-      // final matchesLabel =
-      //     selectedLabel == null || note.contains(selectedLabel?.name);
-      return matchesSearch;
-    }).toList();
+  List<Note> get filteredNotes {
+    return notes;
   }
 
   List<Label> getLabels() {
     return labels;
+  }
+
+  setUserName(String name) {
+    setState(() {
+      userName = name;
+    });
   }
 
   @override
@@ -81,7 +95,9 @@ class _HomeViewState extends State<HomeView> {
         getLabels: getLabels,
         addLabel: addLabel,
         deleteLabel: deleteLabel,
-        updateLabel: updateLabel);
+        updateLabel: updateLabel,
+        setUserName: setUserName,
+        userName: userName);
 
     final mainContent = Padding(
       padding: const EdgeInsets.all(16),
@@ -132,12 +148,8 @@ class _HomeViewState extends State<HomeView> {
                     itemCount: filteredNotes.length,
                     itemBuilder: (context, index) {
                       final note = filteredNotes[index];
-                      return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 6),
-                        child: ListTile(
-                          title: Text(note),
-                        ),
-                      );
+                      return NoteCardView(note: note, labels: labels);
+                      
                     },
                   ),
           ),
@@ -168,13 +180,14 @@ class _HomeViewState extends State<HomeView> {
           : mainContent,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          LabelEditView.show(context,
-              initialValue: '',
-              onSave: (value) => print(value),
-              onDelete: () => print("Deleted"));
+          print('Add Note');
+          // LabelEditView.show(context,
+          //     initialValue: '',
+          //     onSave: (value) => print(value),
+          //     onDelete: () => print("Deleted"));
         },
         child: const Icon(Icons.add),
-        tooltip: 'Edit Labels',
+        tooltip: 'Add note',
       ),
     );
   }

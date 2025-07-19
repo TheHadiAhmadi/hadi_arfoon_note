@@ -2,9 +2,9 @@ import 'package:isar/isar.dart';
 
 part 'label.g.dart';
 
-@collection
+@Collection()
 class Label {
-  Id? id = Isar.autoIncrement;
+  Id? id;
   String name;
   String? details;
   Label({

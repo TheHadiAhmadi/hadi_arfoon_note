@@ -1,14 +1,15 @@
+import 'package:arfoon_note/client/models/label.dart';
 import 'package:isar/isar.dart';
 
 part 'note.g.dart';
 
-@collection
+@Collection()
 class Note {
-  Id? id = Isar.autoIncrement;
+  Id? id;
   String? title;
   String? details;
   int? colorId;
-  List<int> labelIds;
+  List<Id> labelIds;
 
   Note({
     this.id,
@@ -18,12 +19,16 @@ class Note {
     required this.labelIds,
   });
 
+  @Ignore()
+  List<Label> labels = [];
+
   Note copyWith({
     Id? id,
     String? title,
     String? details,
     int? colorId,
-    List<int>? labelIds,
+    List<Id>? labelIds,
+    List<Label>? labels,
   }) {
     return Note(
       id: id ?? this.id,
@@ -31,6 +36,24 @@ class Note {
       details: details ?? this.details,
       colorId: colorId ?? this.colorId,
       labelIds: labelIds ?? this.labelIds,
-    );
+    )..labels = labels ?? this.labels;
+  }
+
+  @Ignore()
+  Future<void> loadLabels(Isar isar) async {
+    if (labelIds.isEmpty) {
+      labels = [];
+      return;
+    }
+
+    final query = isar.labels.filter().group((q) {
+      var orQuery = q.idEqualTo(labelIds.first);
+      for (var id in labelIds.skip(1)) {
+        orQuery = orQuery.or().idEqualTo(id);
+      }
+      return orQuery;
+    });
+
+    labels = await query.findAll();
   }
 }

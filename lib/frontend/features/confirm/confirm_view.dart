@@ -5,19 +5,17 @@ class ConfirmView extends StatelessWidget {
   final String message;
   final String confirmText;
   final String cancelText;
-  final VoidCallback onConfirm;
 
   const ConfirmView({
+    super.key,
     required this.title,
     required this.message,
     required this.confirmText,
     required this.cancelText,
-    required this.onConfirm,
   });
 
-  static Future<void> show(
+  static Future<bool?> show(
     BuildContext context, {
-    required VoidCallback onConfirm,
     String title = 'Confirm Delete',
     String message = 'Are you sure you want to delete this?',
     String confirmText = 'Delete',
@@ -30,7 +28,6 @@ class ConfirmView extends StatelessWidget {
         message: message,
         confirmText: confirmText,
         cancelText: cancelText,
-        onConfirm: onConfirm,
       ),
     );
   }
@@ -46,15 +43,14 @@ class ConfirmView extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pop(false),
           child: Text(
             cancelText,
           ),
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
-            onConfirm();
+            Navigator.of(context).pop(true);
           },
           child: Text(
             confirmText,

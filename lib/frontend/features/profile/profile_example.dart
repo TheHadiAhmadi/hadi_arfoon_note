@@ -18,7 +18,7 @@ class _ProfileExampleState extends State<ProfileExample> {
     return Center(
         child: IconButton(
             onPressed: () async {
-              var text = await ProfileView.show(context);
+              var text = await ProfileView.show(context, name: "Hadi Ahmadi");
               print('User name=$text');
             },
             icon: const Icon(Icons.verified_user)));

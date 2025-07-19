@@ -27,7 +27,6 @@ class ExamplesView extends StatelessWidget {
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => const ProfileExample()));
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileView()));
             },
             description:
                 'This is a dialog and show as ProfileView().show(context) and has parameters of: title, submitText, onSubmit(s)'),
@@ -36,7 +35,6 @@ class ExamplesView extends StatelessWidget {
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => const SettingsExample()));
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileView()));
             },
             description:
                 'This is a dialog and show as SettingsView().show(context) and has parameters of currentLanguage, onLanguageChanged(llang), currentTheme, onThemeChanged(t)'),
@@ -45,7 +43,6 @@ class ExamplesView extends StatelessWidget {
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => const LabelEditExample()));
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileView()));
             },
             description:
                 'This is a dialog and show as AddEditLabelView().show(context) and has parameters of: title, onSubmit(s), onDelete'),
@@ -54,7 +51,6 @@ class ExamplesView extends StatelessWidget {
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => const ConfirmExample()));
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileView()));
             },
             description:
                 'This is a dialog and show as SureView().show(context) and has parameters of: title, subtitle, sureText, onSure()'),

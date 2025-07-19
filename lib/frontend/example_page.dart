@@ -2,7 +2,6 @@ import 'package:arfoon_note/frontend/features/confirm/confirm_example.dart';
 import 'package:arfoon_note/frontend/features/examples/examples_view.dart';
 import 'package:arfoon_note/frontend/features/home/home_example.dart';
 import 'package:arfoon_note/frontend/features/label/label_edit_example.dart';
-import 'package:arfoon_note/frontend/features/note/label_dialog_view.dart';
 import 'package:arfoon_note/frontend/features/examples/example_item.dart';
 import 'package:arfoon_note/frontend/features/settings/settings_example.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,7 @@ class _MyHomePageState extends State<ExamplePage> {
         foregroundColor: Colors.white,
         title: const Text('Examples'),
       ),
-      body: ExamplesView(),
+      body: const ExamplesView(),
     );
   }
 }
